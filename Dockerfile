@@ -14,5 +14,5 @@ RUN npm install
 # 앱 소스 추가
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3001
 CMD [ "node", "app.js" ]
