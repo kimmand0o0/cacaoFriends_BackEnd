@@ -5,10 +5,7 @@
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon src/app.js",
-        "db:create": "npx sequelize db:create --config ./src/config/config.js",
-        "db:migrate": "npx sequelize db:migrate --config ./src/config/config.js --migrations-path ./src/migrations --models-path ./src/models",
-        "db:drop": "npx sequelize db:drop --config ./src/config/config.js"
+        "dev": "nodemon src/app.js"
     },
     "repository": {
         "type": "git",
