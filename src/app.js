@@ -8,7 +8,5 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get('/', (req, res) => {
-    res.send(
-        `test5 ${process.env.PORT}, ${process.env.MYSQL_USERNAME}, ${process.env.MYSQL_DATABASE}`
-    );
+    res.send(`test6 ${process.env.PORT}`);
 });
