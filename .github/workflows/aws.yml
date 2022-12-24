@@ -30,10 +30,11 @@ jobs:
               uses: actions/checkout@v3
 
             # 2. 깃헙 settings > secrets 에 올려놓은 비밀 값을 복사해 .env 파일로 생성
+            # echo "${{ secrets.ENV_VARS }}" >> .env
             - name: create env file 
               run: |
                 touch .env
-                echo "${{ secrets.ENV_VARS }}" >> .env
+                echo "${{ secrets.PORT }}" >> .env
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
