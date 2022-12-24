@@ -62,11 +62,11 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ${{ env.AWS_REGION }}
 
-            - name: ECR 로그인 중!
+            - name: Login to Amazon ECR
               id: login-ecr
               uses: aws-actions/amazon-ecr-login@v1
 
-            - name: ECR에 이미지 푸쉬 중!
+            - name: Build, tag, and push image to Amazon ECR
               id: build-image
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -79,7 +79,7 @@ jobs:
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-            - name: ECS 작업 정의에 새로운 이미지 넣는 중!
+            - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
               uses: aws-actions/amazon-ecs-render-task-definition@v1
               with:
@@ -87,7 +87,7 @@ jobs:
                   container-name: ${{ env.CONTAINER_NAME }}
                   image: ${{ steps.build-image.outputs.image }}
 
-            - name: 배포중!
+            - name: Deploy Amazon ECS task definition
               uses: aws-actions/amazon-ecs-deploy-task-definition@v1
               with:
                   task-definition: ${{ steps.task-def.outputs.task-definition }}
