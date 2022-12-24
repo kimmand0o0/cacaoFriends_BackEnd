@@ -12,9 +12,7 @@ RUN npm install
 # RUN npm ci --only=production
 
 # 앱 소스 추가
-COPY .env ./
-
-RUN export $(cat .env | xargs)
+COPY . .
 
 EXPOSE 3001
 CMD [ "npm", "run", "dev" ]
