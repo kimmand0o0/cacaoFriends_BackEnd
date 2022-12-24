@@ -8,7 +8,5 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get('/', (req, res) => {
-    res.send(
-        `test22 ${process.env.PORT}`
-    );
+    res.send(`test3 ${process.env.PORT}`);
 });
