@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const routes = require('./routes');
+const routes = require('./src/routes');
 const cors = require('cors');
 const corsOption = {
     origin: true, // *
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors(corsOption));
 app.use('/', routes);
 
-const ErrorHandler = require('./middlewares/error.handler.middleware');
+const ErrorHandler = require('./src/middlewares/error.handler.middleware');
 app.use(ErrorHandler);
 
 app.listen(process.env.PORT, () => {
