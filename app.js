@@ -9,6 +9,6 @@ app.listen(process.env.PORT, () => {
 
 app.get('/', (req, res) => {
     res.send(
-        `안녕하세요, 저희는 항해 99 10기 E반 BE 김영재, 김혜주, 김혜란 입니다.`
+        `test ${process.env.PORT}`
     );
 });
