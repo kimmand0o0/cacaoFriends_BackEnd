@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'Carts',
                 foreignKey: 'productId',
             });
-            this.belongsTo(models.Characters, { foreignKey: 'characterId' });
         }
     }
     Products.init(
@@ -36,14 +35,9 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            characterId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'Characters',
-                    key: 'characterId',
-                },
-                onDelete: 'cascade',
+            characterName: {
+                type: DataTypes.STRING,
+                allowNull: true,
             },
             productName: {
                 type: DataTypes.STRING,
