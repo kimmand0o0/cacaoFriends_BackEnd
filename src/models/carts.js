@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             this.belongsTo(models.Users, { foreignKey: 'userId' });
-            this.belongsTo(models.Products, { foreignKey: 'productId' });
         }
     }
     Carts.init(
@@ -30,19 +29,9 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 onDelete: 'cascade',
             },
-            productId: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'Products',
-                    key: 'productId',
-                },
-                onDelete: 'cascade',
-            },
-            amount: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                defaultValue: 1,
+            products: {
+                type: DataTypes.JSON,
+                defaultValue: [],
             },
             createdAt: {
                 allowNull: false,
