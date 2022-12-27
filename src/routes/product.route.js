@@ -7,7 +7,7 @@ const productController = new ProductController();
 router.post('/', productController.createProducts);
 router.get('/new', productController.getProductsNew);
 router.get('/hot', productController.getProductsBest);
-router.get('/characters/:characterName', productController.getProductscharacterName);
+router.get('/characters/:characterName', productController.getProductsCharacterName);
 router.get('/:productId', productController.getProductsDetail);
 
 module.exports = router;

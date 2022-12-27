@@ -30,19 +30,46 @@ class ProductService {
   };
 
   getProductsBest = async () => {
-    const bestList = await this.productRepository.getProductsHot();
+    const orderlists =  await this.productRepository.getOrderLists();
+    const productsLists = await this.productRepository.getProductsAll();
 
-    if (!bestList) {
-      throw new InvalidParamsError(
-        '베스트 상품 조회에 실패하였습니다.'
-      )
+    let allOrderLists = [];
+    for (const orderlist of orderlists) {
+      for (const product of orderlist.products) {
+        allOrderLists.push(product);
+      }
     }
 
-    return bestList;
+    let bestLists = [];
+    let amount =0;
+    for (let productsList of productsLists) {
+      for (let i=0; i<allOrderLists.length; i++) {
+          if (productsList.productId === allOrderLists[i].productId) {
+            amount += allOrderLists[i].amount
+          }
+      }
+      bestLists.push({productId : productsList.productId, amount})
+      amount = 0;
+    }
+    bestLists.sort((a,b) => {
+      if (a.amount > b.amount) {
+      return -1
+      }
+    })
+    
+    let bestAllProducts = [];
+    for (let bestList of bestLists) {
+      let bestProducts = await this.productRepository.getBestProducts({
+        productId : bestList.productId
+      })
+      bestAllProducts.push(bestProducts)
+    }
+    
+    return bestAllProducts;
   };
 
   //캐릭터별 상품 조회
-  getProductscharacterName = async (characterName) => {
+  getProductsCharacterName = async (characterName) => {
     const allProduct =  await this.productRepository.getProductsAll();
 
     const productscharacterName = [];
