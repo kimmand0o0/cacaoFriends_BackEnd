@@ -14,7 +14,6 @@ class UserService {
 
     //카카오 로그인/가입
     kakaoLogin = async (code) => {
-
         //액세스 토큰을 받아온다
         const {
             data: { access_token: kakaoAccessToken },
