@@ -11,8 +11,6 @@ class UserController {
 
     kakaoLogin = async (req, res, next) => {
         try {
-            // const headers = req.headers['authorization'];
-            // const kakaoToken = headers.split(' ')[1];
             const { code } = req.query;
 
             if (!code)
@@ -31,9 +29,7 @@ class UserController {
             return res
                 .header({ accessToken, refreshToken })
                 .status(200)
-                .json({
-                    msg: `${user.name}님의 로그인이 완료 되었습니다.`,
-                });
+                .json({ name: user.name, msg: '로그인이 완료 되었습니다.' });
         } catch (error) {
             console.log(error);
             next(error);
