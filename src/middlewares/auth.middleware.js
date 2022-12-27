@@ -11,13 +11,13 @@ const {
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
-        if (!req.cookies.accessToken && !req.cookies.refreshToken) {
+        if (!req.headers.accessToken && !req.headers.refreshToken) {
             console.log('refreshToken이 없습니다.');
             throw new AuthenticationError('로그인이 유효하지 않습니다.', 401);
         }
 
-        const accessToken = req.cookies.accessToken;
-        const refreshToken = req.cookies.refreshToken;
+        const accessToken = req.headers.accessToken;
+        const refreshToken = req.headers.refreshToken;
 
         // validateAccessToken() = 엑세스 토큰 확인
         const isAccessTokenValidate = validateAccessToken(accessToken);

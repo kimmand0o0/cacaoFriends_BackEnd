@@ -4,7 +4,10 @@ const routes = require('./routes');
 const cors = require('cors');
 const corsOption = {
     origin: true,
+    credentials: true,
     withCredential: true,
+    optionsSuccessStatus: 200,
+    exposedHeaders: ['accessToken', 'refreshToken'],
 };
 
 require('dotenv').config();
