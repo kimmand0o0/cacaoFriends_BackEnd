@@ -6,7 +6,7 @@ const {
     ValidationError,
     AuthenticationError,
     ExistError,
-} = require('../middleWares/exceptions/error.class');
+} = require('../middlewares/exceptions/error.class');
 
 module.exports = async (req, res, next) => {
     try {
