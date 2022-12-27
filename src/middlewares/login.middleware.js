@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
         }
         next();
     } catch (error) {
-        throw new AuthenticationError('잘못 된 접근입니다.', 400);
+        next();
     }
 };
 

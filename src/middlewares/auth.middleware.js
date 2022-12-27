@@ -47,7 +47,7 @@ module.exports = async (req, res, next) => {
 
         next();
     } catch (error) {
-        throw new AuthenticationError('로그인이 유효하지 않습니다.', 400);
+        next(error);
     }
 };
 
