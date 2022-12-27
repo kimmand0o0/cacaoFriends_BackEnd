@@ -1,6 +1,5 @@
 const OrderListsRepository = require('../repositories/orders.repository');
 const { OrderLists, Carts, Products } = require('../../models');
-require('dotenv').config();
 
 class OrdersService {
     orderListsRepository = new OrderListsRepository(OrderLists);

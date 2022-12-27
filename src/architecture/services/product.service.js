@@ -1,13 +1,12 @@
 const ProductRepository = require('../repositories/product.repository.js');
+const { Products } = require('../../models');
 const {
     InvalidParamsError,
     ValidationError,
 } = require('../../middlewares/exceptions/error.class.js');
 
 class ProductService {
-    constructor() {
-        this.productRepository = new ProductRepository();
-    }
+    productsRepository = new ProductRepository(Products);
 
     createProducts = async ({
         characterName,
@@ -16,7 +15,7 @@ class ProductService {
         imageUrl,
         content,
     }) => {
-        const createProduct = await this.productRepository.createProducts({
+        const createProduct = await this.productsRepository.createProducts({
             characterName,
             productName,
             productPrice,
@@ -27,7 +26,7 @@ class ProductService {
     };
 
     getProductsNew = async () => {
-        const newList = await this.productRepository.getProductsAll();
+        const newList = await this.productsRepository.getProductsAll();
 
         if (!newList) {
             throw new InvalidParamsError('신상품 조회에 실패하였습니다.');
@@ -37,35 +36,35 @@ class ProductService {
     };
 
     getProductsBest = async () => {
-        const bestLists = await this.productRepository.getBestProducts();
+        const bestLists = await this.productsRepository.getBestProducts();
 
         return bestLists;
     };
 
     //캐릭터별 상품 조회
     getProductsCharacterName = async (characterName) => {
-        const allProduct = await this.productRepository.getProductsAll();
+        const allProduct = await this.productsRepository.getProductsAll();
 
-        const productscharacterName = [];
+        const productsCharacterName = [];
         for (const product of allProduct) {
             if (
                 product.characterName.includes(characterName) ||
                 characterName.includes(product.characterName) ||
                 product.characterName === 'KAKAOFRIENDS'
             ) {
-                productscharacterName.push(product);
+                productsCharacterName.push(product);
             }
         }
 
-        if (!productscharacterName) {
+        if (!productsCharacterName) {
             throw new InvalidParamsError('캐릭터 상품 조회에 실패하였습니다.');
         }
 
-        return productscharacterName;
+        return productsCharacterName;
     };
 
     getProductsDetail = async (productId) => {
-        const productDetail = await this.productRepository.getProductsDetail(
+        const productDetail = await this.productsRepository.getProductsDetail(
             productId
         );
 

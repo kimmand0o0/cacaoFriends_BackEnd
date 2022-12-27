@@ -1,5 +1,4 @@
 const { Op } = require('sequelize');
-const { Products, Sequelize } = require('../../models');
 
 class OrdersRepository {
     constructor(OrdersModel) {
