@@ -5,7 +5,7 @@ class OrdersController {
 
     findAllOrderLists = async (req, res) => {
         try {
-            let userId = 1;
+            const userId = res.locals.user;
             const OrderLists = await this.ordersService.findAllOrderLists(
                 userId
             );
@@ -19,8 +19,8 @@ class OrdersController {
     };
     addOrderLists = async (req, res) => {
         try {
-            let userId = 1;
-            const OrderLists = await this.ordersService.addOrderLists(userId);
+            const userId = res.locals.user;
+            await this.ordersService.addOrderLists(userId);
             res.status(201).json({ message: '구매에 성공하였습니다.' });
         } catch (error) {
             console.log(error);
@@ -32,7 +32,7 @@ class OrdersController {
 
     findCarts = async (req, res) => {
         try {
-            let userId = 1;
+            const userId = res.locals.user;
             const Carts = await this.ordersService.findCarts(userId);
             res.status(200).json({ Carts });
         } catch (error) {
@@ -45,13 +45,9 @@ class OrdersController {
 
     addCarts = async (req, res) => {
         try {
-            let userId = 1;
+            const userId = res.locals.user;
             const { productId, amount } = req.body;
-            const Carts = await this.ordersService.addCarts(
-                productId,
-                amount,
-                userId
-            );
+            await this.ordersService.addCarts(productId, amount, userId);
             res.status(200).json({
                 message: '장바구니 담기에 성공하였습니다.',
             });
@@ -65,10 +61,10 @@ class OrdersController {
 
     updateProductAmountInCarts = async (req, res) => {
         try {
-            let userId = 1;
+            const userId = res.locals.user;
             const productId = Number(req.params.productId);
             const { amount } = req.body;
-            const Carts = await this.ordersService.updateProductAmountInCarts(
+            await this.ordersService.updateProductAmountInCarts(
                 productId,
                 amount,
                 userId
@@ -86,12 +82,9 @@ class OrdersController {
 
     deleteProductInCarts = async (req, res) => {
         try {
-            let userId = 1;
+            const userId = res.locals.user;
             const productId = Number(req.params.productId);
-            const Carts = await this.ordersService.deleteProductInCarts(
-                productId,
-                userId
-            );
+            await this.ordersService.deleteProductInCarts(productId, userId);
             res.status(201).json({
                 message: '정상적으로 삭제되었습니다.',
             });
