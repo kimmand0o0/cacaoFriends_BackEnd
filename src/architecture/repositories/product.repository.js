@@ -1,7 +1,9 @@
 const { Products, OrderLists, sequelize } = require('../../models');
 
 class ProductRepository {
-    constructor() {}
+    constructor(ProductsModel) {
+        this.productsModel = ProductsModel;
+    }
 
     createProducts = async ({
         characterName,
@@ -10,7 +12,7 @@ class ProductRepository {
         imageUrl,
         content,
     }) => {
-        await Products.create({
+        await this.productsModel.create({
             characterName,
             productName,
             productPrice,
@@ -20,7 +22,7 @@ class ProductRepository {
     };
 
     getProductsAll = async () => {
-        const newList = await Products.findAll({
+        const newList = await this.productsModel.findAll({
             raw: true,
             attributes: [
                 'productId',
@@ -38,7 +40,7 @@ class ProductRepository {
     };
 
     getBestProducts = async () => {
-        const bestLists = await Products.findAll({
+        const bestLists = await this.productsModel.findAll({
             raw: true,
             attributes: [
                 'productId',
@@ -60,17 +62,27 @@ class ProductRepository {
     };
 
     getOrderLists = async () => {
-        const orderLists = await OrderLists.findAll({});
+        const orderLists = await this.productsModel.findAll({});
 
         return orderLists;
     };
 
     getProductsDetail = async (productId) => {
-        const productDetail = await Products.findOne({
+        const productDetail = await this.productsModel.findOne({
+            raw: true,
             where: { productId },
         });
 
         return productDetail;
+    };
+
+    addAmount = async (amount, productId) => {
+        await this.productsModel.increment(
+            { amount },
+            {
+                where: { productId },
+            }
+        );
     };
 }
 

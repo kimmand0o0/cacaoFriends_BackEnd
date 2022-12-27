@@ -1,5 +1,4 @@
 const { Op } = require('sequelize');
-const { Products, Sequelize } = require('../../models');
 
 class OrdersRepository {
     constructor(OrdersModel) {
@@ -46,25 +45,26 @@ class OrdersRepository {
         });
     };
 
-    addFirstCarts = async (productId, amount, userId) => {
+    addFirstCarts = async (
+        productId,
+        amount,
+        userId,
+        productName,
+        totalPrice,
+        imageUrl
+    ) => {
         await this.ordersModel.create({
             userId,
             products: [
                 {
                     productId,
                     amount,
+                    productName,
+                    totalPrice,
+                    imageUrl,
                 },
             ],
         });
-    };
-
-    addAmount = async (amount, productId) => {
-        await this.ordersModel.increment(
-            { amount },
-            {
-                where: { productId },
-            }
-        );
     };
 }
 
