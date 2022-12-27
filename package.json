@@ -1,0 +1,37 @@
+{
+    "name": "cacaofriends_backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon src/app.js",
+        "db:create": "npx sequelize db:create --config ./src/config/config.js",
+        "db:migrate": "npx sequelize db:migrate --config ./src/config/config.js --migrations-path ./src/migrations --models-path ./src/models",
+        "db:drop": "npx sequelize db:drop --config ./src/config/config.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kimmand0o0/cacaoFriends_BackEnd.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kimmand0o0/cacaoFriends_BackEnd/issues"
+    },
+    "homepage": "https://github.com/kimmand0o0/cacaoFriends_BackEnd#readme",
+    "dependencies": {
+        "axios": "^1.2.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.0",
+        "mysql2": "^2.3.3",
+        "sequelize": "^6.28.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.20",
+        "prettier": "^2.8.1",
+        "sequelize-cli": "^6.5.2"
+    }
+}
