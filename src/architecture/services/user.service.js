@@ -42,13 +42,17 @@ class UserService {
                 400
             );
 
-        const user = await this.userRepository.findUser(email);
+        let user = await this.userRepository.findUser(email);
 
         if (!user) {
             return (user = await this.userRepository.signUp(name, email));
         }
+        console.log(user);
+        return user;
+    };
 
-        return jwt.sign({ userId: user.userId }, process.env.KEY, {
+    createAccessToken = async (userId) => {
+        return jwt.sign({ userId }, process.env.SECRET_KEY, {
             expiresIn: '120m',
         });
     };
@@ -56,7 +60,7 @@ class UserService {
     createRefreshToken = async (userId) => {
         const refreshToken = jwt.sign(
             {},
-            process.env.KEY, // 시크릿 키
+            process.env.SECRET_KEY, // 시크릿 키
             { expiresIn: '7d' } // 유효 시간
         );
 

@@ -21,15 +21,20 @@ class UserController {
                     412
                 );
 
-            const accessToken = await this.userService.kakaoLogin(code);
+            const user = await this.userService.kakaoLogin(code);
+            const accessToken = await this.userService.createAccessToken(
+                user.userId
+            );
             const refreshToken = await this.userService.createRefreshToken(
-                userId
+                user.userId
             );
 
             return res
                 .header({ accessToken, refreshToken })
                 .status(200)
-                .json({ msg: '로그인이 완료 되었습니다.' });
+                .json({
+                    msg: `${user.name}님의 로그인이 완료 되었습니다.`,
+                });
         } catch (error) {
             console.log(error);
             next();

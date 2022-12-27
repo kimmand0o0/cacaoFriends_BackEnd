@@ -30,7 +30,7 @@ module.exports = (req, res, next) => {
 // Access Token을 검증합니다.
 function validateAccessToken(accessToken) {
     try {
-        jwt.verify(accessToken, process.env.KEY); // JWT를 검증합니다.
+        jwt.verify(accessToken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;

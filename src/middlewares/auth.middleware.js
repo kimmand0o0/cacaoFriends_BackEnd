@@ -54,7 +54,7 @@ module.exports = async (req, res, next) => {
 // Access Token을 검증합니다.
 function validateAccessToken(accessToken) {
     try {
-        jwt.verify(accessToken, process.env.KEY); // JWT를 검증합니다.
+        jwt.verify(accessToken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;
@@ -64,7 +64,7 @@ function validateAccessToken(accessToken) {
 // Refresh Token을 검증합니다.
 function validateRefreshToken(refreshToken) {
     try {
-        jwt.verify(refreshToken, process.env.KEY); // JWT를 검증합니다.
+        jwt.verify(refreshToken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;
@@ -74,7 +74,7 @@ function validateRefreshToken(refreshToken) {
 // Access Token의 Payload를 가져옵니다.
 function getAccessTokenPayload(accessToken) {
     try {
-        const payload = jwt.verify(accessToken, process.env.KEY); // JWT에서 Payload를 가져옵니다.
+        const payload = jwt.verify(accessToken, process.env.SECRET_KEY); // JWT에서 Payload를 가져옵니다.
         return payload;
     } catch (error) {
         return null;
@@ -84,7 +84,7 @@ function getAccessTokenPayload(accessToken) {
 function createAccessToken(userId) {
     const accessToken = jwt.sign(
         { userId },
-        process.env.KEY, // 시크릿 키
+        process.env.SECRET_KEY, // 시크릿 키
         { expiresIn: '120m' } // 유효 시간
     );
 
