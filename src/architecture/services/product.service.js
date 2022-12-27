@@ -30,43 +30,15 @@ class ProductService {
   };
 
   getProductsBest = async () => {
-    const orderlists =  await this.productRepository.getOrderLists();
-    const productsLists = await this.productRepository.getProductsAll();
-
-    let allOrderLists = [];
-    for (const orderlist of orderlists) {
-      for (const product of orderlist.products) {
-        allOrderLists.push(product);
-      }
-    }
-
-    let bestLists = [];
-    let amount =0;
-    for (let productsList of productsLists) {
-      for (let i=0; i<allOrderLists.length; i++) {
-          if (productsList.productId === allOrderLists[i].productId) {
-            amount += allOrderLists[i].amount
-          }
-      }
-      bestLists.push({productId : productsList.productId, amount})
-      amount = 0;
-    }
-    bestLists.sort((a,b) => {
-      if (a.amount > b.amount) {
-      return -1
-      }
+    const bestLists = await this.productRepository.getBestProducts();
+      bestLists.sort((a,b) => {
+        if (a.amount > b.amount) {
+          return -1
+        }
     })
-    
-    let bestAllProducts = [];
-    for (let bestList of bestLists) {
-      let bestProducts = await this.productRepository.getBestProducts({
-        productId : bestList.productId
-      })
-      bestAllProducts.push(bestProducts)
-    }
-    
-    return bestAllProducts;
-  };
+
+    return bestLists;
+  }
 
   //캐릭터별 상품 조회
   getProductsCharacterName = async (characterName) => {
