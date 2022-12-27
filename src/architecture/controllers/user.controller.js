@@ -28,8 +28,6 @@ class UserController {
             const refreshToken = await this.userService.createRefreshToken(
                 user.userId
             );
-
-            window.close();
             return res
                 .header({ accessToken, refreshToken })
                 .status(200)
