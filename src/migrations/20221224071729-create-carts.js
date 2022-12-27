@@ -18,19 +18,9 @@ module.exports = {
                 onDelete: 'CASCADE',
                 allowNull: false,
             },
-            productId: {
-                type: Sequelize.INTEGER,
-                references: {
-                    model: 'Products',
-                    key: 'productId',
-                },
-                onDelete: 'CASCADE',
-                allowNull: false,
-            },
-            amount: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                defaultValue: 1,
+            products: {
+                type: Sequelize.JSON,
+                defaultValue: [],
             },
             createdAt: {
                 allowNull: false,
