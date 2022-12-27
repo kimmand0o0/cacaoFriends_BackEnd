@@ -31,14 +31,10 @@ class ProductRepository {
     return newList;
   };
 
-  getProductsHot = async () => {
+  getBestProducts = async ({productId}) => {
     const newList = await Products.findAll({
       raw: true,
-      include : [{
-        model : OrderLists,
-        attributes : ['products'],
-        as : 'OrderLists'
-      }],
+      where : { productId },
       attributes: [
         "productId",
         "productName",
@@ -48,12 +44,17 @@ class ProductRepository {
         "imageUrl",
         "createdAt",
         "updatedAt",
-        [sequelize.col("OrderLists.products"), "products"],
       ],
       order: [["createdAt", "DESC"]],
     });
     return newList;
   };
+
+  getOrderLists = async () => {
+    const orderLists = await OrderLists.findAll({})
+
+    return orderLists;
+  }
 
   getProductsDetail = async (productId) => {
     const productDetail = await Products.findOne({

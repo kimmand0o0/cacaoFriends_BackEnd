@@ -37,20 +37,20 @@ class ProductController {
     //베스트 가져오기
     getProductsBest = async (req, res, next) => {
         try {
-        const bestList = await this.productService.getProductsBest();
+            const bestList = await this.productService.getProductsBest();
 
-        res.status(200).json({ products: bestList });
+            res.status(200).json({ products: bestList });
         } catch (error) {
             next(error);
         }
     };
 
     //캐릭터별 상품 조회
-    getProductscharacterName = async (req, res, next) => {
+    getProductsCharacterName = async (req, res, next) => {
         try {
             const { characterName } = req.params;
             
-            const productscharacterName = await this.productService.getProductscharacterName(characterName);
+            const productscharacterName = await this.productService.getProductsCharacterName(characterName);
 
             res.status(200).json({ products: productscharacterName });
         } catch (error) {
