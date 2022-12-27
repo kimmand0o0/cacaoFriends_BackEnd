@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
         if (!isAccessTokenValidate) {
             const accesstokenId = Users.findOne({
                 raw: true,
-                where: { token: refreshtoken },
+                where: { refreshtoken },
                 attributes: ['userId'],
             }).userId;
             if (!accesstokenId) {
