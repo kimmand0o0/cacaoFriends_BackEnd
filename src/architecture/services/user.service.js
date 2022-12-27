@@ -58,15 +58,15 @@ class UserService {
     };
 
     createRefreshToken = async (userId) => {
-        const refreshToken = jwt.sign(
+        const refreshtoken = jwt.sign(
             {},
             process.env.SECRET_KEY, // 시크릿 키
             { expiresIn: '7d' } // 유효 시간
         );
 
-        await this.userRepository.updateUser(userId, refreshToken);
+        await this.userRepository.updateUser(userId, refreshtoken);
 
-        return refreshToken;
+        return refreshtoken;
     };
 }
 
