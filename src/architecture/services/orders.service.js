@@ -1,11 +1,11 @@
 const OrderListsRepository = require('../repositories/orders.repository');
-const { OrderLists } = require('../../models');
-const { Carts } = require('../../models');
+const { OrderLists, Carts, Products } = require('../../models');
 require('dotenv').config();
 
 class OrdersService {
     orderListsRepository = new OrderListsRepository(OrderLists);
     cartsRepository = new OrderListsRepository(Carts);
+    productsRepository = new OrderListsRepository(Products);
 
     findAllOrderLists = async (userId) => {
         return this.orderListsRepository.findAllOrderLists(userId);
@@ -16,10 +16,20 @@ class OrdersService {
     };
 
     addOrderLists = async (userId) => {
-        console.log(userId);
         const carts = await this.cartsRepository.findCarts(userId);
+        if (!carts) {
+            throw new Error('장바구니가 비었습니다.');
+        }
 
         await this.orderListsRepository.addOrderLists(carts, userId);
+
+        let list = carts.products;
+        for (let i in list) {
+            let amount = list[i].amount;
+            let productId = list[i].productId;
+            await this.productsRepository.addAmount(amount, productId);
+        }
+
         await this.cartsRepository.deleteCarts(userId);
     };
 
