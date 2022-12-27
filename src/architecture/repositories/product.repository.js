@@ -1,4 +1,4 @@
-const { Slides, Products, Shorts, OrderLists, sequelize } = require("../../models");
+const { Products, OrderLists, sequelize } = require("../../models");
 
 class ProductRepository {
   constructor() {}
@@ -25,7 +25,30 @@ class ProductRepository {
         "imageUrl",
         "createdAt",
         "updatedAt",
-        // [sequelize.col("OrderLists.amount"), "amount"],
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+    return newList;
+  };
+
+  getProductsHot = async () => {
+    const newList = await Products.findAll({
+      raw: true,
+      include : [{
+        model : OrderLists,
+        attributes : ['products'],
+        as : 'OrderLists'
+      }],
+      attributes: [
+        "productId",
+        "productName",
+        "productPrice",
+        "content",
+        "characterName",
+        "imageUrl",
+        "createdAt",
+        "updatedAt",
+        [sequelize.col("OrderLists.products"), "products"],
       ],
       order: [["createdAt", "DESC"]],
     });
@@ -39,84 +62,6 @@ class ProductRepository {
 
     return productDetail;
   };
-
-  // createProductsSlides = async ({ productId, title, content, slideImg }) => {
-  //   await Slides.create({
-  //     productId,
-  //     title,
-  //     content,
-  //     slideImg,
-  //   });
-  // };
-
-  // createProductsShorts = async ({ content, videoUrl, productId }) => {
-  //   await Shorts.create({
-  //     content,
-  //     videoUrl,
-  //     productId
-  //   });
-  // };
-
-  // getProductsSlides = async () => {
-  //   const slidesList = await Slides.findAll({
-  //     raw: true,
-  //     attributes: [
-  //       "slideId",
-  //       "productId",
-  //       "title",
-  //       "content",
-  //       "slideImg",
-  //       "createdAt",
-  //       "updatedAt",
-  //     ],
-  //     order: [["createdAt", "DESC"]],
-  //   });
-  //   return slidesList;
-  // };
-
-  // getProductscharacterName = async (characterName) => {
-  //   const productscharacterName = await Products.findAll({
-  //     where : { characterName },
-  //     raw: true,
-  //     attributes: [
-  //       "productId",
-  //       "productName",
-  //       "productPrice",
-  //       "content",
-  //       "imageUrl",
-  //       "characterName",
-  //       "createdAt",
-  //       "updatedAt",
-  //       // [sequelize.col("OrderLists.amount"), "amount"],
-  //     ],
-  //     order: [["createdAt", "DESC"]],
-  //   });
-  //   return productscharacterName;
-  // }
-
-  // getProductsShorts = async () => {
-  //   const shortsList = await Shorts.findAll({
-  //     raw: true,
-  //     attributes: [
-  //       "shortId", 
-  //       "content", 
-  //       "videoUrl", 
-  //       "productId",
-  //       "createdAt",
-  //       "updatedAt",
-  //       [sequelize.col("Product.productName"), "productName"],
-  //       [sequelize.col("Product.productPrice"), "productPrice"],
-  //     ],
-  //     include: [
-  //       {
-  //         model: Products,
-  //         attributes: [],
-  //       },
-  //     ],
-  //     order: [["createdAt", "DESC"]],
-  //   });
-  //   return shortsList;
-  // };
 
 }
 

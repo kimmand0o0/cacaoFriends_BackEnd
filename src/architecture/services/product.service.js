@@ -14,10 +14,7 @@ class ProductService {
       imageUrl,
       content
     });
-
-    if (!createProduct) {
-      throw new ValidationError();
-    }
+    return createProduct;
   };
 
   getProductsNew = async () => {
@@ -33,7 +30,7 @@ class ProductService {
   };
 
   getProductsBest = async () => {
-    const bestList = await this.productRepository.getProductsAll();
+    const bestList = await this.productRepository.getProductsHot();
 
     if (!bestList) {
       throw new InvalidParamsError(
@@ -50,7 +47,7 @@ class ProductService {
 
     const productscharacterName = [];
     for (const product of allProduct) {
-      if (product.characterName.includes(characterName) || product.characterName === '카카오 프렌즈') {
+      if (product.characterName.includes(characterName)|| characterName.includes(product.characterName) || product.characterName === 'KAKAOFRIENDS') {
         productscharacterName.push(product);
       }
     }
@@ -77,56 +74,6 @@ class ProductService {
     return productDetail;
   };
 
-  // createProductsSlides = async ({ productId, title, content, slideImg }) => {
-  //   await this.productRepository.createProductsSlides({
-  //     productId,
-  //     title,
-  //     content,
-  //     slideImg,
-  //   });
-  // };
-
-  // createProductsShorts = async ({ content, videoUrl, productId }) => {
-  //   await this.productRepository.createProductsShorts({
-  //     content,
-  //     videoUrl,
-  //     productId
-  //   });
-  // };
-
-  // getProductsSlides = async () => {
-  //   const slidesList = this.productRepository.getProductsSlides();
-
-  //   return slidesList;
-  // };
-
-  // //캐릭터별 상품 조회
-  // getProductscharacterName = async (characterName) => {
-  //   const productscharacterName =  await this.productRepository.getProductscharacterName(characterName);
-
-  //   return productscharacterName;
-  // }
-
-  // getProductsPromotion = async () => {
-  //   const productAll = await this.productRepository.getProductsAll();
-
-  //   const promotionList = [];
-  //   for (product of productAll) {
-  //     if (
-  //       product.productNamproduct.includes("크리스마스") ||
-  //       product.productNamproduct.includes("눈사람")
-  //     ) {
-  //       promotionList.push(product);
-  //     }
-  //   }
-  //   return promotionList;
-  // };
-
-  // getProductsShorts = async () => {
-  //   const shortsList = await this.productRepository.getProductsShorts();
-
-  //   return shortsList;
-  // };
 }
 
 module.exports = ProductService;
