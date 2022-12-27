@@ -29,6 +29,7 @@ class UserController {
                 user.userId
             );
 
+            window.close();
             return res
                 .header({ accessToken, refreshToken })
                 .status(200)
@@ -37,7 +38,7 @@ class UserController {
                 });
         } catch (error) {
             console.log(error);
-            next();
+            next(error);
         }
     };
 }
