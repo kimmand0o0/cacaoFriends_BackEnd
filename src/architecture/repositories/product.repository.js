@@ -37,10 +37,9 @@ class ProductRepository {
         return newList;
     };
 
-    getBestProducts = async ({ productId }) => {
-        const newList = await Products.findAll({
+    getBestProducts = async () => {
+        const bestLists = await Products.findAll({
             raw: true,
-            where: { productId },
             attributes: [
                 'productId',
                 'productName',
@@ -48,12 +47,16 @@ class ProductRepository {
                 'content',
                 'characterName',
                 'imageUrl',
+                'amount',
                 'createdAt',
                 'updatedAt',
             ],
-            order: [['createdAt', 'DESC']],
+            order: [
+                ['amount', 'DESC'],
+                ['productId', 'ASC'],
+            ],
         });
-        return newList;
+        return bestLists;
     };
 
     getOrderLists = async () => {
