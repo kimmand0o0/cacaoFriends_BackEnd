@@ -78,6 +78,9 @@ class OrdersService {
         const productInfo = await this.productsRepository.getProductsDetail(
             productId
         );
+        if (!productInfo) {
+            throw new Error('존재하지않는 상품입니다.');
+        }
         const { productPrice } = productInfo;
         const quantityPrice = productPrice * amount;
 
