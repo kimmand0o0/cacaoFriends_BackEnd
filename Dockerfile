@@ -16,5 +16,5 @@ RUN npm install -g pm2
 # 앱 소스 추가
 COPY . .
 
-EXPOSE 3001
-CMD [ "npm", "run", "pm2" ]
+EXPOSE 3000
+CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
