@@ -15,7 +15,6 @@ class OrdersRepository {
     };
 
     addOrderLists = async (carts, userId) => {
-        console.log(carts, 1);
         await this.ordersModel.create({
             userId,
             products: carts.products,
@@ -39,7 +38,6 @@ class OrdersRepository {
     };
 
     deleteCarts = async (userId) => {
-        console.log(userId, 1);
         await this.ordersModel.destroy({
             where: { userId },
         });
