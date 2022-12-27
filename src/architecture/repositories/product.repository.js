@@ -74,6 +74,15 @@ class ProductRepository {
 
         return productDetail;
     };
+
+    addAmount = async (amount, productId) => {
+        await this.productsModel.increment(
+            { amount },
+            {
+                where: { productId },
+            }
+        );
+    };
 }
 
 module.exports = ProductRepository;

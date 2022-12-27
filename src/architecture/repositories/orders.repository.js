@@ -56,15 +56,6 @@ class OrdersRepository {
             ],
         });
     };
-
-    addAmount = async (amount, productId) => {
-        await this.ordersModel.increment(
-            { amount },
-            {
-                where: { productId },
-            }
-        );
-    };
 }
 
 module.exports = OrdersRepository;

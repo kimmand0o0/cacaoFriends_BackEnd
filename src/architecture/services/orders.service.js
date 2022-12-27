@@ -1,10 +1,11 @@
 const OrderListsRepository = require('../repositories/orders.repository');
+const productsRepository = require('../repositories/product.repository');
 const { OrderLists, Carts, Products } = require('../../models');
 
 class OrdersService {
     orderListsRepository = new OrderListsRepository(OrderLists);
     cartsRepository = new OrderListsRepository(Carts);
-    productsRepository = new OrderListsRepository(Products);
+    productsRepository = new productsRepository(Products);
 
     findAllOrderLists = async (userId) => {
         return this.orderListsRepository.findAllOrderLists(userId);
@@ -20,16 +21,14 @@ class OrdersService {
             throw new Error('장바구니가 비었습니다.');
         }
 
-        await this.orderListsRepository.addOrderLists(carts, userId);
-
         let list = carts.products;
         for (let i in list) {
             let amount = list[i].amount;
             let productId = list[i].productId;
             await this.productsRepository.addAmount(amount, productId);
         }
-
         await this.cartsRepository.deleteCarts(userId);
+        await this.orderListsRepository.addOrderLists(carts, userId);
     };
 
     addCarts = async (productId, amount, userId) => {
