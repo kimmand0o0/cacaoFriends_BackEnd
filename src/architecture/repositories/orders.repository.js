@@ -16,7 +16,7 @@ class OrdersRepository {
     };
 
     addOrderLists = async (carts, userId) => {
-        console.log(userId, 1);
+        console.log(carts, 1);
         await this.ordersModel.create({
             userId,
             products: carts.products,
@@ -56,6 +56,15 @@ class OrdersRepository {
                 },
             ],
         });
+    };
+
+    addAmount = async (amount, productId) => {
+        await this.ordersModel.increment(
+            { amount },
+            {
+                where: { productId },
+            }
+        );
     };
 }
 

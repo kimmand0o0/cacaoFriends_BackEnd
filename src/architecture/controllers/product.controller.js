@@ -1,23 +1,29 @@
-const ProductService = require("../services/product.service.js");
+const ProductService = require('../services/product.service.js');
 
 class ProductController {
-  constructor() {
-    this.productService = new ProductService();
-  }
+    constructor() {
+        this.productService = new ProductService();
+    }
 
-  //제품 생성
+    //제품 생성
     createProducts = async (req, res, next) => {
         try {
-        const { characterName, productName, productPrice, content, imageUrl } = req.body;
+            const {
+                characterName,
+                productName,
+                productPrice,
+                content,
+                imageUrl,
+            } = req.body;
 
-        await this.productService.createProducts({
-            characterName,
-            productName,
-            productPrice,
-            imageUrl,
-            content
-        });
-        res.json({ message: "생성 성공" }); 
+            await this.productService.createProducts({
+                characterName,
+                productName,
+                productPrice,
+                imageUrl,
+                content,
+            });
+            res.json({ message: '생성 성공' });
         } catch (error) {
             next(error);
         }
@@ -26,9 +32,9 @@ class ProductController {
     //신상품 가져오기
     getProductsNew = async (req, res, next) => {
         try {
-        const newList = await this.productService.getProductsNew();
+            const newList = await this.productService.getProductsNew();
 
-        res.status(200).json({ products: newList });
+            res.status(200).json({ products: newList });
         } catch (error) {
             next(error);
         }
@@ -49,10 +55,13 @@ class ProductController {
     getProductsCharacterName = async (req, res, next) => {
         try {
             const { characterName } = req.params;
-            
-            const productscharacterName = await this.productService.getProductsCharacterName(characterName);
 
-            res.status(200).json({ products: productscharacterName });
+            const productsCharacterName =
+                await this.productService.getProductsCharacterName(
+                    characterName
+                );
+
+            res.status(200).json({ products: productsCharacterName });
         } catch (error) {
             next(error);
         }
@@ -62,15 +71,15 @@ class ProductController {
     getProductsDetail = async (req, res, next) => {
         try {
             const { productId } = req.params;
-            const productDetail = await this.productService.getProductsDetail(productId);
+            const productDetail = await this.productService.getProductsDetail(
+                productId
+            );
 
             res.status(200).json({ products: productDetail });
         } catch (error) {
             next(error);
         }
     };
-
-
-    }
+}
 
 module.exports = ProductController;
