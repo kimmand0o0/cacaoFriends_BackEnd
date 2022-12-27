@@ -21,7 +21,7 @@ class UserRepository {
     updateUser = async (userId, refreshtoken) => {
         return Users.update(
             {
-                token: refreshtoken,
+                refreshtoken,
             },
             { where: { userId } }
         );
