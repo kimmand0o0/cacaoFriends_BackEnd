@@ -12,7 +12,11 @@ class OrdersService {
     };
 
     findCarts = async (userId) => {
-        return this.cartsRepository.findCarts(userId);
+        const carts = await this.cartsRepository.findCarts(userId);
+        if (!carts) {
+            return {};
+        }
+        return carts;
     };
 
     addOrderLists = async (userId) => {
@@ -33,7 +37,11 @@ class OrdersService {
 
     addCarts = async (productId, amount, userId) => {
         const carts = await this.cartsRepository.findCarts(userId);
-
+        const productInfo = await this.productsRepository.getProductsDetail(
+            productId
+        );
+        const { productName, productPrice, imageUrl } = productInfo;
+        const totalPrice = productPrice * amount;
         if (carts) {
             let itemIndex = carts.products.findIndex(
                 (p) => p.productId === productId
@@ -41,16 +49,27 @@ class OrdersService {
             if (itemIndex > -1) {
                 let product = carts.products[itemIndex];
                 product.amount += amount;
+                product.totalPrice += totalPrice;
                 carts.products[itemIndex] = product;
             } else {
                 carts.products.push({
                     amount,
                     productId,
+                    productName,
+                    totalPrice,
+                    imageUrl,
                 });
             }
             await this.cartsRepository.addCarts(carts);
         } else {
-            await this.cartsRepository.addFirstCarts(productId, amount, userId);
+            await this.cartsRepository.addFirstCarts(
+                productId,
+                amount,
+                userId,
+                productName,
+                totalPrice,
+                imageUrl
+            );
         }
     };
 

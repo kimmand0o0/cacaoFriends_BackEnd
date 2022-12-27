@@ -69,6 +69,7 @@ class ProductRepository {
 
     getProductsDetail = async (productId) => {
         const productDetail = await this.productsModel.findOne({
+            raw: true,
             where: { productId },
         });
 

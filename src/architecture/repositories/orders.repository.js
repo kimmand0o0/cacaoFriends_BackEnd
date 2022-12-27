@@ -45,13 +45,23 @@ class OrdersRepository {
         });
     };
 
-    addFirstCarts = async (productId, amount, userId) => {
+    addFirstCarts = async (
+        productId,
+        amount,
+        userId,
+        productName,
+        totalPrice,
+        imageUrl
+    ) => {
         await this.ordersModel.create({
             userId,
             products: [
                 {
                     productId,
                     amount,
+                    productName,
+                    totalPrice,
+                    imageUrl,
                 },
             ],
         });
