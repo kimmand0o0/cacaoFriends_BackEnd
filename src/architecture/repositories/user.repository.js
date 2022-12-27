@@ -18,10 +18,10 @@ class UserRepository {
         });
     };
 
-    updateUser = async (userId, refreshToken) => {
+    updateUser = async (userId, refreshtoken) => {
         return Users.update(
             {
-                token: refreshToken,
+                token: refreshtoken,
             },
             { where: { userId } }
         );

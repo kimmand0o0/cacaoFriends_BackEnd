@@ -11,38 +11,38 @@ const {
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
-        if (!req.headers.accessToken && !req.headers.refreshToken) {
-            console.log('refreshToken이 없습니다.');
+        if (!req.headers.accesstoken && !req.headers.refreshtoken) {
+            console.log('refreshtoken이 없습니다.');
             throw new AuthenticationError('로그인이 유효하지 않습니다.', 401);
         }
 
-        const accessToken = req.headers.accessToken;
-        const refreshToken = req.headers.refreshToken;
+        const accesstoken = req.headers.accesstoken;
+        const refreshtoken = req.headers.refreshtoken;
 
         // validateAccessToken() = 엑세스 토큰 확인
-        const isAccessTokenValidate = validateAccessToken(accessToken);
-        const isRefreshTokenValidate = validateRefreshToken(refreshToken);
+        const isAccessTokenValidate = validateAccessToken(accesstoken);
+        const isRefreshTokenValidate = validateRefreshToken(refreshtoken);
 
         // 리프레시 토큰이 없을 경우
         if (!isRefreshTokenValidate) {
-            console.log('refreshToken이 없습니다.');
+            console.log('refreshtoken이 없습니다.');
             throw new AuthenticationError('로그인이 유효하지 않습니다.', 401);
         }
 
         // AccessToken을 확인 했을 때 만료일 경우
         if (!isAccessTokenValidate) {
-            const accessTokenId = Users.findOne({
+            const accesstokenId = Users.findOne({
                 raw: true,
-                where: { token: refreshToken },
+                where: { token: refreshtoken },
                 attributes: ['userId'],
             }).userId;
-            if (!accessTokenId) {
+            if (!accesstokenId) {
                 // 새로운 엑세스 토큰을 만들어준다.
-                const newAccessToken = createAccessToken(accessTokenId);
-                res.header('accessToken', newAccessToken);
+                const newAccessToken = createAccessToken(accesstokenId);
+                res.header('accesstoken', newAccessToken);
             }
         }
-        const { userId } = getAccessTokenPayload(accessToken);
+        const { userId } = getAccessTokenPayload(accesstoken);
         res.locals.user = userId;
 
         next();
@@ -52,9 +52,9 @@ module.exports = async (req, res, next) => {
 };
 
 // Access Token을 검증합니다.
-function validateAccessToken(accessToken) {
+function validateAccessToken(accesstoken) {
     try {
-        jwt.verify(accessToken, process.env.SECRET_KEY); // JWT를 검증합니다.
+        jwt.verify(accesstoken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;
@@ -62,9 +62,9 @@ function validateAccessToken(accessToken) {
 }
 
 // Refresh Token을 검증합니다.
-function validateRefreshToken(refreshToken) {
+function validateRefreshToken(refreshtoken) {
     try {
-        jwt.verify(refreshToken, process.env.SECRET_KEY); // JWT를 검증합니다.
+        jwt.verify(refreshtoken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;
@@ -72,9 +72,9 @@ function validateRefreshToken(refreshToken) {
 }
 
 // Access Token의 Payload를 가져옵니다.
-function getAccessTokenPayload(accessToken) {
+function getAccessTokenPayload(accesstoken) {
     try {
-        const payload = jwt.verify(accessToken, process.env.SECRET_KEY); // JWT에서 Payload를 가져옵니다.
+        const payload = jwt.verify(accesstoken, process.env.SECRET_KEY); // JWT에서 Payload를 가져옵니다.
         return payload;
     } catch (error) {
         return null;
@@ -82,11 +82,11 @@ function getAccessTokenPayload(accessToken) {
 }
 
 function createAccessToken(userId) {
-    const accessToken = jwt.sign(
+    const accesstoken = jwt.sign(
         { userId },
         process.env.SECRET_KEY, // 시크릿 키
         { expiresIn: '120m' } // 유효 시간
     );
 
-    return accessToken;
+    return accesstoken;
 }

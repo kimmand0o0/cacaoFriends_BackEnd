@@ -7,7 +7,7 @@ const corsOption = {
     credentials: true,
     withCredential: true,
     optionsSuccessStatus: 200,
-    exposedHeaders: ['accessToken', 'refreshToken'],
+    exposedHeaders: ['accesstoken', 'refreshtoken'],
 };
 
 require('dotenv').config();

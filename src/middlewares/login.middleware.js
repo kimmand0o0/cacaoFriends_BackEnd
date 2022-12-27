@@ -15,8 +15,8 @@ module.exports = (req, res, next) => {
             return;
         }
 
-        const accessToken = req.headers.accessToken;
-        const token = validateAccessToken(accessToken);
+        const accesstoken = req.headers.accesstoken;
+        const token = validateAccessToken(accesstoken);
 
         if (token) {
             throw new AuthenticationError('이미 로그인이 되어있습니다.', 403);
@@ -28,9 +28,9 @@ module.exports = (req, res, next) => {
 };
 
 // Access Token을 검증합니다.
-function validateAccessToken(accessToken) {
+function validateAccessToken(accesstoken) {
     try {
-        jwt.verify(accessToken, process.env.SECRET_KEY); // JWT를 검증합니다.
+        jwt.verify(accesstoken, process.env.SECRET_KEY); // JWT를 검증합니다.
         return true;
     } catch (error) {
         return false;
