@@ -19,11 +19,10 @@ class ProductRepository {
         });
     };
 
-    getProductsAll = async ({ like, attributes, limit, order, where }) => {
+    getProductsAll = async ({ attributes, limit, order, where }) => {
         return this.productsModel.findAll({
             raw: true,
             attributes: attributes,
-            like: like,
             where: where,
             order: order,
             limit: limit,

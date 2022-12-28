@@ -39,11 +39,6 @@ class ProductService {
             ],
             order: [['createdAt', 'DESC']],
         });
-
-        if (!newList) {
-            throw new InvalidParamsError('신상품 조회에 실패하였습니다.');
-        }
-
         return newList;
     };
 
@@ -66,11 +61,6 @@ class ProductService {
                 ['productId', 'ASC'],
             ],
         });
-
-        if (!bestLists) {
-            throw new InvalidParamsError('베스트 조회에 실패하였습니다.');
-        }
-
         return bestLists;
     };
 
@@ -95,11 +85,6 @@ class ProductService {
             },
             order: [['createdAt', 'DESC']],
         });
-
-        if (!characterProducts) {
-            throw new InvalidParamsError('캐릭터 상품 조회에 실패하였습니다.');
-        }
-
         return characterProducts;
     };
 
