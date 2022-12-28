@@ -2,8 +2,8 @@ const ProductRepository = require('../repositories/product.repository.js');
 const { Products } = require('../../models');
 const {
     InvalidParamsError,
-    ValidationError,
 } = require('../../middlewares/exceptions/error.class.js');
+const { Op } = require('sequelize');
 
 class ProductService {
     productsRepository = new ProductRepository(Products);
@@ -15,51 +15,77 @@ class ProductService {
         imageUrl,
         content,
     }) => {
-        const createProduct = await this.productsRepository.createProducts({
+        this.productsRepository.createProducts({
             characterName,
             productName,
             productPrice,
             imageUrl,
             content,
         });
-        return createProduct;
     };
 
     getProductsNew = async () => {
-        const newList = await this.productsRepository.getProductsAll();
-
-        if (!newList) {
-            throw new InvalidParamsError('신상품 조회에 실패하였습니다.');
-        }
-
+        const newList = await this.productsRepository.getProductsAll({
+            limit: 8,
+            attributes: [
+                'productId',
+                'productName',
+                'productPrice',
+                'content',
+                'characterName',
+                'imageUrl',
+                'createdAt',
+                'updatedAt',
+            ],
+            order: [['createdAt', 'DESC']],
+        });
         return newList;
     };
 
     getProductsBest = async () => {
-        const bestLists = await this.productsRepository.getBestProducts();
-
+        const bestLists = await this.productsRepository.getProductsAll({
+            attributes: [
+                'productId',
+                'productName',
+                'productPrice',
+                'content',
+                'characterName',
+                'imageUrl',
+                'amount',
+                'createdAt',
+                'updatedAt',
+            ],
+            limit: 50,
+            order: [
+                ['amount', 'DESC'],
+                ['productId', 'ASC'],
+            ],
+        });
         return bestLists;
     };
 
     //캐릭터별 상품 조회
     getProductsCharacterName = async (characterName) => {
-        const allProduct = await this.productsRepository.getProductsAll();
-
-        const productsCharacterName = [];
-        for (const product of allProduct) {
-            if (
-                product.characterName.includes(characterName) ||
-                product.characterName === 'KAKAOFRIENDS'
-            ) {
-                productsCharacterName.push(product);
-            }
-        }
-
-        if (!productsCharacterName) {
-            throw new InvalidParamsError('캐릭터 상품 조회에 실패하였습니다.');
-        }
-
-        return productsCharacterName;
+        const characterProducts = await this.productsRepository.getProductsAll({
+            attributes: [
+                'productId',
+                'productName',
+                'productPrice',
+                'content',
+                'characterName',
+                'imageUrl',
+                'createdAt',
+                'updatedAt',
+            ],
+            where: {
+                [Op.or]: [
+                    { characterName: { [Op.like]: '%' + characterName + '%' } },
+                    { characterName: 'KAKAOFRIENDS' },
+                ],
+            },
+            order: [['createdAt', 'DESC']],
+        });
+        return characterProducts;
     };
 
     getProductsDetail = async (productId) => {
