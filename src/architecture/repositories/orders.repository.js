@@ -28,7 +28,6 @@ class OrdersRepository {
             where: {
                 [Op.or]: [{ userId }],
             },
-            order: [['createdAt', 'DESC']],
         });
     };
 
