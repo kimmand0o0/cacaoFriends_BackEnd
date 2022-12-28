@@ -100,7 +100,6 @@ class OrdersService {
 
     updateProductAmountInCart = async (productId, amount, userId) => {
         const carts = await this.cartsRepository.findCart(userId);
-        console.log(carts);
         const productInfo = await this.productsRepository.getProductsDetail(
             productId
         );
@@ -126,7 +125,6 @@ class OrdersService {
                 );
             }
         } else {
-            console.log(123);
             throw new InvalidParamsError('빈 장바구니입니다.');
         }
     };
@@ -146,7 +144,7 @@ class OrdersService {
                 } else {
                     carts.products = products;
 
-                    await this.cartsRepository.addCart(carts || {});
+                    await this.cartsRepository.addCart(carts);
                 }
             } else {
                 throw new InvalidParamsError(
