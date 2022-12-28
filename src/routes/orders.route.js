@@ -12,17 +12,17 @@ router.post(
     ordersController.directOrderLists
 );
 
-router.get('/carts', authMiddleware, ordersController.findCarts);
-router.post('/carts', authMiddleware, ordersController.addCarts);
+router.get('/carts', authMiddleware, ordersController.findCart);
+router.post('/carts', authMiddleware, ordersController.addCart);
 router.put(
     '/carts/:productId',
     authMiddleware,
-    ordersController.updateProductAmountInCarts
+    ordersController.updateProductAmountInCart
 );
 router.put(
     '/carts/delete/:productId',
     authMiddleware,
-    ordersController.deleteProductInCarts
+    ordersController.deleteProductInCart
 );
 
 module.exports = router;
