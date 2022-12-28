@@ -22,10 +22,10 @@ class ProductRepository {
     getProductsAll = async ({ attributes, limit, order, where }) => {
         return this.productsModel.findAll({
             raw: true,
-            attributes: attributes,
-            where: where,
-            order: order,
-            limit: limit,
+            attributes,
+            where,
+            order,
+            limit,
         });
     };
 
