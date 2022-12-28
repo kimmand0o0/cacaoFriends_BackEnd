@@ -6,6 +6,11 @@ const authMiddleware = require('../middlewares/auth.middleware');
 
 router.get('/orderLists', authMiddleware, ordersController.findAllOrderLists);
 router.post('/orderLists', authMiddleware, ordersController.addOrderLists);
+router.post(
+    '/directOrderLists',
+    authMiddleware,
+    ordersController.directOrderLists
+);
 
 router.get('/carts', authMiddleware, ordersController.findCarts);
 router.post('/carts', authMiddleware, ordersController.addCarts);

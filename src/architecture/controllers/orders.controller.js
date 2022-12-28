@@ -24,6 +24,23 @@ class OrdersController {
         }
     };
 
+    directOrderLists = async (req, res, next) => {
+        try {
+            let userId = 5;
+            const { productId, amount } = req.body;
+            await this.ordersService.directOrderLists(
+                productId,
+                amount,
+                userId
+            );
+            res.status(201).json({
+                message: ' 구매에 성공하였습니다.',
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+
     findCarts = async (req, res, next) => {
         try {
             const userId = res.locals.user;

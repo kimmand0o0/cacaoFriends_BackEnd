@@ -24,6 +24,24 @@ class OrdersService {
         return carts;
     };
 
+    directOrderLists = async (productId, amount, userId) => {
+        const productInfo = await this.productsRepository.getProductsDetail(
+            productId
+        );
+        if (!productInfo) {
+            throw new InvalidParamsError('존재하지않는 상품입니다.');
+        }
+        const { productName, productPrice, imageUrl } = productInfo;
+        await this.orderListsRepository.directOrderLists(
+            amount,
+            userId,
+            productId,
+            productName,
+            productPrice,
+            imageUrl
+        );
+    };
+
     addOrderLists = async (userId) => {
         const carts = await this.cartsRepository.findCarts(userId);
         if (!carts) {
@@ -39,6 +57,8 @@ class OrdersService {
         await this.cartsRepository.deleteCarts(userId);
         await this.orderListsRepository.addOrderLists(carts, userId);
     };
+
+    dir;
 
     addCarts = async (productId, amount, userId) => {
         const carts = await this.cartsRepository.findCarts(userId);

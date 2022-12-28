@@ -1,4 +1,4 @@
-const UserRepository = require('../repositories/user.repository.js');
+const UserRepository = require('../repositories/login.repository.js');
 const {
     InvalidParamsError,
     ValidationError,
