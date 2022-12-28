@@ -36,7 +36,7 @@ module.exports = async (req, res, next) => {
                 where: { refreshtoken },
                 attributes: ['userId'],
             });
-            if (!accesstokenId.userId) {
+            if (!accesstokenId) {
                 throw new AuthenticationError(
                     '로그인이 유효하지 않습니다.',
                     401

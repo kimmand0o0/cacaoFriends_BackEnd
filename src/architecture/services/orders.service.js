@@ -24,6 +24,25 @@ class OrdersService {
         return carts;
     };
 
+    directOrderLists = async (productId, amount, userId) => {
+        const productInfo = await this.productsRepository.getProductsDetail(
+            productId
+        );
+        if (!productInfo) {
+            throw new InvalidParamsError('존재하지않는 상품입니다.');
+        }
+        const { productName, productPrice, imageUrl } = productInfo;
+        const quantityPrice = productPrice * amount;
+        await this.orderListsRepository.directOrderLists(
+            amount,
+            userId,
+            productId,
+            productName,
+            quantityPrice,
+            imageUrl
+        );
+    };
+
     addOrderLists = async (userId) => {
         const carts = await this.cartsRepository.findCarts(userId);
         if (!carts) {

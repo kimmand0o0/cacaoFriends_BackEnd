@@ -29,6 +29,10 @@
 
 <h1>실행화면 및 주소</h1>
 
+<img width="400" alt="스크린샷 2022-12-28 오후 6 53 39" src="https://user-images.githubusercontent.com/103705842/209793709-b66ac872-8018-40be-ace9-9f6eb4e9946c.png"><img width="400" alt="스크린샷 2022-12-28 오후 6 53 44" src="https://user-images.githubusercontent.com/103705842/209793717-51600224-4a27-409f-ad08-8f513ae72309.png">
+<img width="400" alt="스크린샷 2022-12-28 오후 6 53 46" src="https://user-images.githubusercontent.com/103705842/209793723-407cd411-d5ca-4dfe-ae3e-c3a4e07369e2.png"><img width="400" alt="스크린샷 2022-12-28 오후 6 54 03" src="https://user-images.githubusercontent.com/103705842/209793728-f8a814e2-2550-4009-a225-22581e40b9ce.png">
+
+
 <h1> 핵심기능 </h1>
 
     카카오를 통한 소셜로그인/ 로그아웃

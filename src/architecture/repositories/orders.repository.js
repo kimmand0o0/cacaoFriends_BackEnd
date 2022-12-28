@@ -37,6 +37,28 @@ class OrdersRepository {
         );
     };
 
+    directOrderLists = async (
+        amount,
+        userId,
+        productId,
+        productName,
+        quantityPrice,
+        imageUrl
+    ) => {
+        await this.ordersModel.create({
+            userId,
+            products: [
+                {
+                    productId,
+                    amount,
+                    productName,
+                    quantityPrice,
+                    imageUrl,
+                },
+            ],
+        });
+    };
+
     deleteCarts = async (userId) => {
         await this.ordersModel.destroy({
             where: { userId },
