@@ -13,23 +13,41 @@ class UserService {
     userRepository = new UserRepository();
 
     //카카오 로그인/가입
-    kakaoLogin = async (code) => {
-        //액세스 토큰을 받아온다
-        const {
-            data: { access_token: kakaoAccessToken },
-        } = await axios('https://kauth.kakao.com/oauth/token', {
-            params: {
-                grant_type: 'authorization_code',
-                client_id: process.env.KAKAO_REST_API_KEY,
-                redirect_uri: process.env.KAKAO_REDIRECT_URI,
-                code: code,
-            },
-        });
+    kakaoLogin = async (code, codetype) => {
+        let kakaoToken = '';
+
+        if (codetype == 'development') {
+            //액세스 토큰을 받아온다
+            const {
+                data: { access_token: kakaoAccessToken },
+            } = await axios('https://kauth.kakao.com/oauth/token', {
+                params: {
+                    grant_type: 'authorization_code',
+                    client_id: process.env.KAKAO_REST_API_KEY,
+                    redirect_uri: process.env.KAKAO_REDIRECT_URI_TEST,
+                    code: code,
+                },
+            });
+            kakaoToken = kakaoAccessToken;
+        } else if (!codetype || codetype == 'production') {
+            //액세스 토큰을 받아온다
+            const {
+                data: { access_token: kakaoAccessToken },
+            } = await axios('https://kauth.kakao.com/oauth/token', {
+                params: {
+                    grant_type: 'authorization_code',
+                    client_id: process.env.KAKAO_REST_API_KEY,
+                    redirect_uri: process.env.KAKAO_REDIRECT_URI,
+                    code: code,
+                },
+            });
+            kakaoToken = kakaoAccessToken;
+        }
 
         //유저 정보를 받아온다
         const { data } = await axios('https://kapi.kakao.com/v2/user/me', {
             headers: {
-                Authorization: `Bearer ${kakaoAccessToken}`,
+                Authorization: `Bearer ${kakaoToken}`,
             },
         });
 
