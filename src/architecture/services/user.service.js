@@ -53,7 +53,7 @@ class UserService {
 
     createAccessToken = async (userId) => {
         return jwt.sign({ userId }, process.env.SECRET_KEY, {
-            expiresIn: '120m',
+            expiresIn: '30s',
         });
     };
 

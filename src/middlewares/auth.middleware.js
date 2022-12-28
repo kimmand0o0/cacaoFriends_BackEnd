@@ -85,7 +85,7 @@ function createAccessToken(userId) {
     const accesstoken = jwt.sign(
         { userId },
         process.env.SECRET_KEY, // 시크릿 키
-        { expiresIn: '120m' } // 유효 시간
+        { expiresIn: '10s' } // 유효 시간
     );
 
     return accesstoken;

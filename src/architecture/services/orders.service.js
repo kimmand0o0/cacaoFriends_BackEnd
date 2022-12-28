@@ -25,10 +25,10 @@ class OrdersService {
             throw new Error('장바구니가 비었습니다.');
         }
 
-        let list = carts.products;
-        for (let i in list) {
-            let amount = list[i].amount;
-            let productId = list[i].productId;
+        const list = carts.products;
+        for (const i in list) {
+            const amount = list[i].amount;
+            const productId = list[i].productId;
             await this.productsRepository.addAmount(amount, productId);
         }
         await this.cartsRepository.deleteCarts(userId);
@@ -41,22 +41,22 @@ class OrdersService {
             productId
         );
         const { productName, productPrice, imageUrl } = productInfo;
-        const totalPrice = productPrice * amount;
+        const quantityPrice = productPrice * amount;
         if (carts) {
-            let itemIndex = carts.products.findIndex(
-                (p) => p.productId === productId
+            const existProduct = carts.products.findIndex(
+                (product) => product.productId === productId
             );
-            if (itemIndex > -1) {
-                let product = carts.products[itemIndex];
+            if (existProduct > -1) {
+                const product = carts.products[existProduct];
                 product.amount += amount;
-                product.totalPrice += totalPrice;
-                carts.products[itemIndex] = product;
+                product.quantityPrice += quantityPrice;
+                carts.products[existProduct] = product;
             } else {
                 carts.products.push({
                     amount,
                     productId,
                     productName,
-                    totalPrice,
+                    quantityPrice,
                     imageUrl,
                 });
             }
@@ -67,7 +67,7 @@ class OrdersService {
                 amount,
                 userId,
                 productName,
-                totalPrice,
+                quantityPrice,
                 imageUrl
             );
         }
@@ -75,15 +75,24 @@ class OrdersService {
 
     updateProductAmountInCarts = async (productId, amount, userId) => {
         const carts = await this.cartsRepository.findCarts(userId);
+        const productInfo = await this.productsRepository.getProductsDetail(
+            productId
+        );
+        if (!productInfo) {
+            throw new Error('존재하지않는 상품입니다.');
+        }
+        const { productPrice } = productInfo;
+        const quantityPrice = productPrice * amount;
 
         if (carts) {
-            let itemIndex = carts.products.findIndex(
+            let existProduct = carts.products.findIndex(
                 (p) => p.productId === productId
             );
-            if (itemIndex > -1) {
-                let product = carts.products[itemIndex];
+            if (existProduct > -1) {
+                let product = carts.products[existProduct];
                 product.amount = amount;
-                carts.products[itemIndex] = product;
+                product.quantityPrice = quantityPrice;
+                carts.products[existProduct] = product;
                 await this.cartsRepository.addCarts(carts);
             } else {
                 throw new Error('장바구니에 등록되지않은 상품입니다.');
@@ -97,11 +106,11 @@ class OrdersService {
         let carts = await this.cartsRepository.findCarts(userId);
 
         if (carts) {
-            let itemIndex = carts.products.findIndex(
+            let existProduct = carts.products.findIndex(
                 (p) => p.productId === productId
             );
-            if (itemIndex > -1) {
-                let product = carts.products[itemIndex];
+            if (existProduct > -1) {
+                let product = carts.products[existProduct];
                 let products = carts.products.filter((x) => x !== product);
                 carts.products = products;
 

@@ -15,5 +15,5 @@ RUN npm install
 # 앱 소스 추가
 COPY . .
 
-EXPOSE 3001
-CMD [ "npm", "run", "dev" ]
+EXPOSE 3000
+CMD ["npm" "run" "dev"]
