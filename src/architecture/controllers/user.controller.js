@@ -1,73 +1,40 @@
-const UserRepository = require('../repositories/user.repository.js');
+const UserService = require('../services/user.service');
 const {
     InvalidParamsError,
     ValidationError,
     AuthenticationError,
     ExistError,
 } = require('../../middlewares/exceptions/error.class');
-const jwt = require('jsonwebtoken');
-const axios = require('axios');
-require('dotenv').config();
 
-class UserService {
-    userRepository = new UserRepository();
+class UserController {
+    userService = new UserService();
 
-    //카카오 로그인/가입
-    kakaoLogin = async (code) => {
-        //액세스 토큰을 받아온다
-        const {
-            data: { access_token: kakaoAccessToken },
-        } = await axios('https://kauth.kakao.com/oauth/token', {
-            params: {
-                grant_type: 'authorization_code',
-                client_id: process.env.KAKAO_REST_API_KEY,
-                redirect_uri: process.env.KAKAO_REDIRECT_URI,
-                code: code,
-            },
-        });
+    kakaoLogin = async (req, res, next) => {
+        try {
+            const { code } = req.query;
 
-        //유저 정보를 받아온다
-        const { data } = await axios('https://kapi.kakao.com/v2/user/me', {
-            headers: {
-                Authorization: `Bearer ${kakaoAccessToken}`,
-            },
-        });
+            if (!code)
+                throw new InvalidParamsError(
+                    '카카오 로그인에 실패하였습니다.',
+                    412
+                );
 
-        const name = data.properties.nickname;
-        const email = data.kakao_account.email;
-
-        if (!name || !email)
-            throw new ValidationError(
-                '카카오 인증 정보가 올바르지 않습니다.',
-                400
+            const user = await this.userService.kakaoLogin(code);
+            const accesstoken = await this.userService.createAccessToken(
+                user.userId
             );
-
-        let user = await this.userRepository.findUser(email);
-
-        if (!user) {
-            return (user = await this.userRepository.signUp(name, email));
+            const refreshtoken = await this.userService.createRefreshToken(
+                user.userId
+            );
+            return res
+                .header({ accesstoken, refreshtoken })
+                .status(200)
+                .json({ name: user.name, msg: '로그인이 완료 되었습니다.' });
+        } catch (error) {
+            console.log(error);
+            next(error);
         }
-        console.log(user);
-        return user;
-    };
-
-    createAccessToken = async (userId) => {
-        return jwt.sign({ userId }, process.env.SECRET_KEY, {
-            expiresIn: '2h',
-        });
-    };
-
-    createRefreshToken = async (userId) => {
-        const refreshtoken = jwt.sign(
-            {},
-            process.env.SECRET_KEY, // 시크릿 키
-            { expiresIn: '7d' } // 유효 시간
-        );
-
-        await this.userRepository.updateUser(userId, refreshtoken);
-
-        return refreshtoken;
     };
 }
 
-module.exports = UserService;
+module.exports = UserController;
