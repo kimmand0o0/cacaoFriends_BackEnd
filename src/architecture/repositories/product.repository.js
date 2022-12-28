@@ -1,5 +1,3 @@
-const { Products, OrderLists, sequelize } = require('../../models');
-
 class ProductRepository {
     constructor(ProductsModel) {
         this.productsModel = ProductsModel;
@@ -21,41 +19,14 @@ class ProductRepository {
         });
     };
 
-    getProductsAll = async () => {
+    getProductsAll = async ({ like, attributes, limit, order, where }) => {
         return this.productsModel.findAll({
             raw: true,
-            attributes: [
-                'productId',
-                'productName',
-                'productPrice',
-                'content',
-                'characterName',
-                'imageUrl',
-                'createdAt',
-                'updatedAt',
-            ],
-            order: [['createdAt', 'DESC']],
-        });
-    };
-
-    getBestProducts = async () => {
-        return this.productsModel.findAll({
-            raw: true,
-            attributes: [
-                'productId',
-                'productName',
-                'productPrice',
-                'content',
-                'characterName',
-                'imageUrl',
-                'amount',
-                'createdAt',
-                'updatedAt',
-            ],
-            order: [
-                ['amount', 'DESC'],
-                ['productId', 'ASC'],
-            ],
+            attributes: attributes,
+            like: like,
+            where: where,
+            order: order,
+            limit: limit,
         });
     };
 

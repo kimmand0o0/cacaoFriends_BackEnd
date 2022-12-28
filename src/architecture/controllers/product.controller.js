@@ -55,6 +55,8 @@ class ProductController {
     getProductsCharacterName = async (req, res, next) => {
         try {
             const { characterName } = req.params;
+            // const { characterName } = req.query;
+            // console.log(characterName);
 
             const productsCharacterName =
                 await this.productService.getProductsCharacterName(
