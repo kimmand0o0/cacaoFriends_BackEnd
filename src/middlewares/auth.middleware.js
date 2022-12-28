@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
             throw new AuthenticationError('로그인이 유효하지 않습니다.', 401);
         }
 
-        const accesstoken = req.headers.accesstoken;
+        let accesstoken = req.headers.accesstoken;
         const refreshtoken = req.headers.refreshtoken;
 
         // validateAccessToken() = 엑세스 토큰 확인
@@ -31,17 +31,23 @@ module.exports = async (req, res, next) => {
 
         // AccessToken을 확인 했을 때 만료일 경우
         if (!isAccessTokenValidate) {
-            const accesstokenId = Users.findOne({
+            const accesstokenId = await Users.findOne({
                 raw: true,
                 where: { refreshtoken },
                 attributes: ['userId'],
-            }).userId;
-            if (!accesstokenId) {
-                // 새로운 엑세스 토큰을 만들어준다.
-                const newAccessToken = createAccessToken(accesstokenId);
-                res.header('accesstoken', newAccessToken);
+            });
+            if (!accesstokenId.userId) {
+                throw new AuthenticationError(
+                    '로그인이 유효하지 않습니다.',
+                    401
+                );
             }
+            // 새로운 엑세스 토큰을 만들어준다.
+            const newAccessToken = createAccessToken(accesstokenId.userId);
+            res.header('accesstoken', newAccessToken);
+            accesstoken = newAccessToken;
         }
+
         const { userId } = getAccessTokenPayload(accesstoken);
         res.locals.user = userId;
 
