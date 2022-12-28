@@ -3,7 +3,7 @@
 내 손 안에서 프렌즈의 이야기, 재밌는 이벤트, 새로운 쇼핑! 3만원 이상 구매 시 배송비 무료!! CACAO Friends!
 
 </br>
-<h1>1. 제작기간 및 팀원 소개</h1>
+<h1>제작기간 및 팀원 소개</h1>
 
      2021년 12월 23일 ~ 29일
 
@@ -12,37 +12,38 @@
          백앤드 : 김영재, 김혜란, 김혜주
          프론트 : 이성배, 이재정(팀장)
 
-<h1>2.📚 STACKS</h1>
+<h1>📚 STACKS</h1>
 
   <h3>Backend</h3>
       
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
 <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
-      OAuth
       
        
   <h3>Deploy</h3>
 <img width="600" alt="스크린샷 2022-12-22 오후 4 24 01" src="https://user-images.githubusercontent.com/103705842/209755577-227a8c3e-ca08-4cde-9a2b-8dffa7b676ba.png">
         
-<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">        
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">     
+
        Github Actions 
-       Docker 
-<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">       
+
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">    
+
        AWS EC2
        AWS ECS
        AWS ECR
-       AWS Elastic Load Balancer
+       AWS ELB
 
-<h1>3. 실행화면 및 주소</h1>
+<h1>실행화면 및 주소</h1>
 
-<h1> 4. 핵심기능 </h1>
+<h1> 핵심기능 </h1>
 
     카카오를 통한 소셜로그인/ 로그아웃
     베스트 상품 조회, 신상품 조회, 캐릭터상품 조회
     장바구니 담기, 장바구니 조회, 장바구니 수량 수정 및 삭제, 주문하기, 주문내역 조회
 
-<h1> 5. Trouble Shooting </h1>
+<h1> Trouble Shooting </h1>
 
 1. ECS PM2
 
