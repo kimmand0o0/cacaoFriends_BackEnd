@@ -3,10 +3,10 @@ const router = express.Router();
 
 const loginMiddleWare = require('../middlewares/login.middleware');
 
-const UserController = require('../architecture/controllers/login.controller');
-const userController = new UserController();
+const LoginController = require('../architecture/controllers/login.controller');
+const loginController = new LoginController();
 
 //카카오 로그인
-router.get('/kakao', loginMiddleWare, userController.kakaoLogin);
+router.get('/kakao', loginMiddleWare, loginController.kakaoLogin);
 
 module.exports = router;

@@ -1,13 +1,8 @@
 const { Users } = require('../../models');
 
-class UserRepository {
+class LoginRepository {
     signUp = async (name, email) => {
-        await Users.create({ name, email });
-        return Users.findOne({
-            raw: true,
-            where: { email },
-            attributes: ['userId', 'email', 'name'],
-        });
+        return Users.create({ name, email });
     };
 
     findUser = async (email) => {
@@ -28,4 +23,4 @@ class UserRepository {
     };
 }
 
-module.exports = UserRepository;
+module.exports = LoginRepository;

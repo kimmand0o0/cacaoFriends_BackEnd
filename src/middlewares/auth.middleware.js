@@ -2,17 +2,13 @@ const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
 
 const {
-    InvalidParamsError,
-    ValidationError,
     AuthenticationError,
-    ExistError,
 } = require('../middlewares/exceptions/error.class');
 
 module.exports = async (req, res, next) => {
     try {
         // 토큰이 없을 경우
         if (!req.headers.accesstoken && !req.headers.refreshtoken) {
-            console.log('refreshtoken이 없습니다.');
             throw new AuthenticationError('로그인이 유효하지 않습니다.', 401);
         }
 
@@ -25,25 +21,24 @@ module.exports = async (req, res, next) => {
 
         // 리프레시 토큰이 없을 경우
         if (!isRefreshTokenValidate) {
-            console.log('refreshtoken이 없습니다.');
             throw new AuthenticationError('로그인이 유효하지 않습니다.', 401);
         }
 
         // AccessToken을 확인 했을 때 만료일 경우
         if (!isAccessTokenValidate) {
-            const accesstokenId = await Users.findOne({
+            const user = await Users.findOne({
                 raw: true,
                 where: { refreshtoken },
                 attributes: ['userId'],
             });
-            if (!accesstokenId) {
+            if (!user) {
                 throw new AuthenticationError(
                     '로그인이 유효하지 않습니다.',
                     401
                 );
             }
             // 새로운 엑세스 토큰을 만들어준다.
-            const newAccessToken = createAccessToken(accesstokenId.userId);
+            const newAccessToken = createAccessToken(user.userId);
             res.header('accesstoken', newAccessToken);
             accesstoken = newAccessToken;
         }

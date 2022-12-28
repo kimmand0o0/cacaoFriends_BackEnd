@@ -1,21 +1,14 @@
-const UserService = require('../services/login.service');
+const LoginService = require('../services/login.service');
 const {
     InvalidParamsError,
-    ValidationError,
-    AuthenticationError,
-    ExistError,
 } = require('../../middlewares/exceptions/error.class');
 
-class UserController {
-    userService = new UserService();
+class LoginController {
+    loginService = new LoginService();
 
     kakaoLogin = async (req, res, next) => {
         try {
-            let codetype = null;
-            if (req.query.codetype) {
-                codetype = req.query.codetype;
-            }
-
+            const codetype = req.query.codetype || null;
             const { code } = req.query;
 
             if (!code)
@@ -24,11 +17,11 @@ class UserController {
                     412
                 );
 
-            const user = await this.userService.kakaoLogin(code, codetype);
-            const accesstoken = await this.userService.createAccessToken(
+            const user = await this.loginService.kakaoLogin(code, codetype);
+            const accesstoken = await this.loginService.createAccessToken(
                 user.userId
             );
-            const refreshtoken = await this.userService.createRefreshToken(
+            const refreshtoken = await this.loginService.createRefreshToken(
                 user.userId
             );
             return res
@@ -42,4 +35,4 @@ class UserController {
     };
 }
 
-module.exports = UserController;
+module.exports = LoginController;

@@ -1,29 +1,22 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const {
-    InvalidParamsError,
-    ValidationError,
     AuthenticationError,
-    ExistError,
 } = require('../middlewares/exceptions/error.class');
 
 // 로그인 되어 있는 유저일 경우 Error를 반환한다.
 module.exports = (req, res, next) => {
     try {
-        if (!req.headers.accesstoken && !req.headers.refreshtoken) {
+        if (!req.headers.refreshtoken) {
             next();
             return;
         }
 
-        // validateAccessToken() = 엑세스 토큰 확인
-        const isAccessTokenValidate = validateAccessToken(
-            req.headers.accesstoken
-        );
         const isRefreshTokenValidate = validateRefreshToken(
             req.headers.refreshtoken
         );
 
-        if (isAccessTokenValidate || isRefreshTokenValidate) {
+        if (isRefreshTokenValidate) {
             throw new AuthenticationError('이미 로그인이 되어있습니다.', 403);
         }
 
