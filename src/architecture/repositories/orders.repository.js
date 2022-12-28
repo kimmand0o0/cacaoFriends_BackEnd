@@ -11,6 +11,7 @@ class OrdersRepository {
             where: {
                 [Op.or]: [{ userId }],
             },
+            order: [['createdAt', 'DESC']],
         });
     };
 
@@ -21,7 +22,7 @@ class OrdersRepository {
         });
     };
 
-    findCarts = async (userId) => {
+    findCart = async (userId) => {
         return this.ordersModel.findOne({
             raw: true,
             where: {
@@ -30,7 +31,7 @@ class OrdersRepository {
         });
     };
 
-    addCarts = async (carts) => {
+    addCart = async (carts) => {
         await this.ordersModel.update(
             { products: carts.products },
             { where: { cartId: carts.cartId } }
@@ -59,13 +60,13 @@ class OrdersRepository {
         });
     };
 
-    deleteCarts = async (userId) => {
+    deleteCart = async (userId) => {
         await this.ordersModel.destroy({
             where: { userId },
         });
     };
 
-    addFirstCarts = async (
+    addFirstCart = async (
         productId,
         amount,
         userId,

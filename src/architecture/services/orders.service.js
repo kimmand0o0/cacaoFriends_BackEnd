@@ -4,7 +4,6 @@ const { OrderLists, Carts, Products } = require('../../models');
 
 const {
     InvalidParamsError,
-    ValidationError,
 } = require('../../middlewares/exceptions/error.class.js');
 
 class OrdersService {
@@ -16,12 +15,10 @@ class OrdersService {
         return this.orderListsRepository.findAllOrderLists(userId);
     };
 
-    findCarts = async (userId) => {
-        const carts = await this.cartsRepository.findCarts(userId);
-        if (!carts) {
-            return {};
-        }
-        return carts;
+    findCart = async (userId) => {
+        const carts = await this.cartsRepository.findCart(userId);
+
+        return carts || {};
     };
 
     directOrderLists = async (productId, amount, userId) => {
@@ -33,6 +30,7 @@ class OrdersService {
         }
         const { productName, productPrice, imageUrl } = productInfo;
         const quantityPrice = productPrice * amount;
+        await this.productsRepository.addAmount(amount, productId);
         await this.orderListsRepository.directOrderLists(
             amount,
             userId,
@@ -44,7 +42,7 @@ class OrdersService {
     };
 
     addOrderLists = async (userId) => {
-        const carts = await this.cartsRepository.findCarts(userId);
+        const carts = await this.cartsRepository.findCart(userId);
         if (!carts) {
             throw new InvalidParamsError('장바구니가 비었습니다.');
         }
@@ -55,12 +53,12 @@ class OrdersService {
             const productId = list[i].productId;
             await this.productsRepository.addAmount(amount, productId);
         }
-        await this.cartsRepository.deleteCarts(userId);
+        await this.cartsRepository.deleteCart(userId);
         await this.orderListsRepository.addOrderLists(carts, userId);
     };
 
-    addCarts = async (productId, amount, userId) => {
-        const carts = await this.cartsRepository.findCarts(userId);
+    addCart = async (productId, amount, userId) => {
+        const carts = await this.cartsRepository.findCart(userId);
         const productInfo = await this.productsRepository.getProductsDetail(
             productId
         );
@@ -79,7 +77,7 @@ class OrdersService {
                 product.quantityPrice += quantityPrice;
                 carts.products[existProduct] = product;
             } else {
-                carts.products.push({
+                carts.products.unshift({
                     amount,
                     productId,
                     productName,
@@ -87,9 +85,9 @@ class OrdersService {
                     imageUrl,
                 });
             }
-            await this.cartsRepository.addCarts(carts);
+            await this.cartsRepository.addCart(carts);
         } else {
-            await this.cartsRepository.addFirstCarts(
+            await this.cartsRepository.addFirstCart(
                 productId,
                 amount,
                 userId,
@@ -100,8 +98,8 @@ class OrdersService {
         }
     };
 
-    updateProductAmountInCarts = async (productId, amount, userId) => {
-        const carts = await this.cartsRepository.findCarts(userId);
+    updateProductAmountInCart = async (productId, amount, userId) => {
+        const carts = await this.cartsRepository.findCart(userId);
         const productInfo = await this.productsRepository.getProductsDetail(
             productId
         );
@@ -113,14 +111,14 @@ class OrdersService {
 
         if (carts) {
             const existProduct = carts.products.findIndex(
-                (p) => p.productId === productId
+                (product) => product.productId === productId
             );
             if (existProduct > -1) {
                 const product = carts.products[existProduct];
                 product.amount = amount;
                 product.quantityPrice = quantityPrice;
                 carts.products[existProduct] = product;
-                await this.cartsRepository.addCarts(carts);
+                await this.cartsRepository.addCart(carts);
             } else {
                 throw new InvalidParamsError(
                     '장바구니에 등록되지않은 상품입니다.'
@@ -131,19 +129,23 @@ class OrdersService {
         }
     };
 
-    deleteProductInCarts = async (productId, userId) => {
-        const carts = await this.cartsRepository.findCarts(userId);
+    deleteProductInCart = async (productId, userId) => {
+        const carts = await this.cartsRepository.findCart(userId);
 
         if (carts) {
             let existProduct = carts.products.findIndex(
-                (p) => p.productId === productId
+                (product) => product.productId === productId
             );
             if (existProduct > -1) {
                 const product = carts.products[existProduct];
                 const products = carts.products.filter((x) => x !== product);
-                carts.products = products;
+                if (products.length === 0) {
+                    await this.cartsRepository.deleteCart(userId);
+                } else {
+                    carts.products = products;
 
-                await this.cartsRepository.addCarts(carts);
+                    await this.cartsRepository.addCart(carts);
+                }
             } else {
                 throw new InvalidParamsError(
                     '장바구니에 등록되지않은 상품입니다.'
