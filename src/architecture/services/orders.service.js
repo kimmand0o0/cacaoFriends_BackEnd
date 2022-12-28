@@ -2,6 +2,11 @@ const OrderListsRepository = require('../repositories/orders.repository');
 const productsRepository = require('../repositories/product.repository');
 const { OrderLists, Carts, Products } = require('../../models');
 
+const {
+    InvalidParamsError,
+    ValidationError,
+} = require('../../middlewares/exceptions/error.class.js');
+
 class OrdersService {
     orderListsRepository = new OrderListsRepository(OrderLists);
     cartsRepository = new OrderListsRepository(Carts);
@@ -22,7 +27,7 @@ class OrdersService {
     addOrderLists = async (userId) => {
         const carts = await this.cartsRepository.findCarts(userId);
         if (!carts) {
-            throw new Error('장바구니가 비었습니다.');
+            throw new InvalidParamsError('장바구니가 비었습니다.');
         }
 
         const list = carts.products;
@@ -40,6 +45,9 @@ class OrdersService {
         const productInfo = await this.productsRepository.getProductsDetail(
             productId
         );
+        if (!productInfo) {
+            throw new InvalidParamsError('존재하지않는 상품입니다.');
+        }
         const { productName, productPrice, imageUrl } = productInfo;
         const quantityPrice = productPrice * amount;
         if (carts) {
@@ -79,47 +87,51 @@ class OrdersService {
             productId
         );
         if (!productInfo) {
-            throw new Error('존재하지않는 상품입니다.');
+            throw new InvalidParamsError('존재하지않는 상품입니다.');
         }
         const { productPrice } = productInfo;
         const quantityPrice = productPrice * amount;
 
         if (carts) {
-            let existProduct = carts.products.findIndex(
+            const existProduct = carts.products.findIndex(
                 (p) => p.productId === productId
             );
             if (existProduct > -1) {
-                let product = carts.products[existProduct];
+                const product = carts.products[existProduct];
                 product.amount = amount;
                 product.quantityPrice = quantityPrice;
                 carts.products[existProduct] = product;
                 await this.cartsRepository.addCarts(carts);
             } else {
-                throw new Error('장바구니에 등록되지않은 상품입니다.');
+                throw new InvalidParamsError(
+                    '장바구니에 등록되지않은 상품입니다.'
+                );
             }
         } else {
-            throw new Error('빈 장바구니입니다.');
+            throw new InvalidParamsError('빈 장바구니입니다.');
         }
     };
 
     deleteProductInCarts = async (productId, userId) => {
-        let carts = await this.cartsRepository.findCarts(userId);
+        const carts = await this.cartsRepository.findCarts(userId);
 
         if (carts) {
             let existProduct = carts.products.findIndex(
                 (p) => p.productId === productId
             );
             if (existProduct > -1) {
-                let product = carts.products[existProduct];
-                let products = carts.products.filter((x) => x !== product);
+                const product = carts.products[existProduct];
+                const products = carts.products.filter((x) => x !== product);
                 carts.products = products;
 
                 await this.cartsRepository.addCarts(carts);
             } else {
-                throw new Error('장바구니에 등록되지않은 상품입니다.');
+                throw new InvalidParamsError(
+                    '장바구니에 등록되지않은 상품입니다.'
+                );
             }
         } else {
-            throw new Error('빈 장바구니입니다.');
+            throw new InvalidParamsError('빈 장바구니입니다.');
         }
     };
 }
