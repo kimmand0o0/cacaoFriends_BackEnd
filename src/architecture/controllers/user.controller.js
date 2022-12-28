@@ -11,6 +11,11 @@ class UserController {
 
     kakaoLogin = async (req, res, next) => {
         try {
+            let codetype = null;
+            if (req.query.codetype) {
+                codetype = req.query.codetype;
+            }
+
             const { code } = req.query;
 
             if (!code)
@@ -19,7 +24,7 @@ class UserController {
                     412
                 );
 
-            const user = await this.userService.kakaoLogin(code);
+            const user = await this.userService.kakaoLogin(code, codetype);
             const accesstoken = await this.userService.createAccessToken(
                 user.userId
             );
