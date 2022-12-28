@@ -22,6 +22,8 @@
       
        
   <h3>Deploy</h3>
+<img width="600" alt="스크린샷 2022-12-22 오후 4 24 01" src="https://user-images.githubusercontent.com/103705842/209755577-227a8c3e-ca08-4cde-9a2b-8dffa7b676ba.png">
+        
         
        Github Actions 
        Docker 
@@ -30,7 +32,7 @@
        AWS ECR
        AWS Elastic Load Balancer
        
-       ![무제 drawio (1)](https://user-images.githubusercontent.com/103705842/209755577-227a8c3e-ca08-4cde-9a2b-8dffa7b676ba.png)
+       
 
        
        
