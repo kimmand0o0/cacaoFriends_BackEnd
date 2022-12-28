@@ -32,12 +32,13 @@ class OrdersService {
             throw new InvalidParamsError('존재하지않는 상품입니다.');
         }
         const { productName, productPrice, imageUrl } = productInfo;
+        const quantityPrice = productPrice * amount;
         await this.orderListsRepository.directOrderLists(
             amount,
             userId,
             productId,
             productName,
-            productPrice,
+            quantityPrice,
             imageUrl
         );
     };

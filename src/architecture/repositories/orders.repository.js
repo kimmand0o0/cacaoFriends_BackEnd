@@ -42,7 +42,7 @@ class OrdersRepository {
         userId,
         productId,
         productName,
-        productPrice,
+        quantityPrice,
         imageUrl
     ) => {
         await this.ordersModel.create({
@@ -52,7 +52,7 @@ class OrdersRepository {
                     productId,
                     amount,
                     productName,
-                    quantityPrice: productPrice,
+                    quantityPrice,
                     imageUrl,
                 },
             ],

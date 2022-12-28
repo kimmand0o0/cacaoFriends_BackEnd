@@ -26,7 +26,7 @@ class OrdersController {
 
     directOrderLists = async (req, res, next) => {
         try {
-            let userId = 5;
+            const userId = res.locals.user;
             const { productId, amount } = req.body;
             await this.ordersService.directOrderLists(
                 productId,
