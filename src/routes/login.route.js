@@ -3,7 +3,7 @@ const router = express.Router();
 
 const loginMiddleWare = require('../middlewares/login.middleware');
 
-const UserController = require('../architecture/controllers/user.controller');
+const UserController = require('../architecture/controllers/login.controller');
 const userController = new UserController();
 
 //카카오 로그인
