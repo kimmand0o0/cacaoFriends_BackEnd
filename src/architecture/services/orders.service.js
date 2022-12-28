@@ -59,8 +59,6 @@ class OrdersService {
         await this.orderListsRepository.addOrderLists(carts, userId);
     };
 
-    dir;
-
     addCarts = async (productId, amount, userId) => {
         const carts = await this.cartsRepository.findCarts(userId);
         const productInfo = await this.productsRepository.getProductsDetail(
