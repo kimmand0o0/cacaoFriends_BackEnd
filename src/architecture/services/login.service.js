@@ -1,16 +1,11 @@
-const UserRepository = require('../repositories/login.repository.js');
-const {
-    InvalidParamsError,
-    ValidationError,
-    AuthenticationError,
-    ExistError,
-} = require('../../middlewares/exceptions/error.class');
+const LoginRepository = require('../repositories/login.repository.js');
+const { ValidationError } = require('../../middlewares/exceptions/error.class');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 require('dotenv').config();
 
-class UserService {
-    userRepository = new UserRepository();
+class LoginService {
+    loginRepository = new LoginRepository();
 
     //카카오 로그인/가입
     kakaoLogin = async (code, codetype) => {
@@ -60,12 +55,11 @@ class UserService {
                 400
             );
 
-        let user = await this.userRepository.findUser(email);
+        let user = await this.loginRepository.findUser(email);
 
         if (!user) {
-            return (user = await this.userRepository.signUp(name, email));
+            return (user = await this.loginRepository.signUp(name, email));
         }
-        console.log(user);
         return user;
     };
 
@@ -82,10 +76,10 @@ class UserService {
             { expiresIn: '7d' } // 유효 시간
         );
 
-        await this.userRepository.updateUser(userId, refreshtoken);
+        await this.loginRepository.updateUser(userId, refreshtoken);
 
         return refreshtoken;
     };
 }
 
-module.exports = UserService;
+module.exports = LoginService;
