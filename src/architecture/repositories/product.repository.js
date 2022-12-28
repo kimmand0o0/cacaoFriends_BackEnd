@@ -22,7 +22,7 @@ class ProductRepository {
     };
 
     getProductsAll = async () => {
-        const newList = await this.productsModel.findAll({
+        return this.productsModel.findAll({
             raw: true,
             attributes: [
                 'productId',
@@ -36,11 +36,10 @@ class ProductRepository {
             ],
             order: [['createdAt', 'DESC']],
         });
-        return newList;
     };
 
     getBestProducts = async () => {
-        const bestLists = await this.productsModel.findAll({
+        return this.productsModel.findAll({
             raw: true,
             attributes: [
                 'productId',
@@ -58,22 +57,17 @@ class ProductRepository {
                 ['productId', 'ASC'],
             ],
         });
-        return bestLists;
     };
 
     getOrderLists = async () => {
-        const orderLists = await this.productsModel.findAll({});
-
-        return orderLists;
+        return this.productsModel.findAll({});
     };
 
     getProductsDetail = async (productId) => {
-        const productDetail = await this.productsModel.findOne({
+        return this.productsModel.findOne({
             raw: true,
             where: { productId },
         });
-
-        return productDetail;
     };
 
     addAmount = async (amount, productId) => {

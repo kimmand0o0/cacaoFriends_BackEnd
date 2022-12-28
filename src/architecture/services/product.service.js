@@ -49,7 +49,6 @@ class ProductService {
         for (const product of allProduct) {
             if (
                 product.characterName.includes(characterName) ||
-                characterName.includes(product.characterName) ||
                 product.characterName === 'KAKAOFRIENDS'
             ) {
                 productsCharacterName.push(product);
