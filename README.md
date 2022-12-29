@@ -5,7 +5,7 @@
 </br>
 <h1>제작기간 및 팀원 소개</h1>
 
-     2021년 12월 23일 ~ 29일
+     2022년 12월 23일 ~ 29일
 
      E반 2조 cacaoFriends 팀
 
@@ -29,8 +29,11 @@
 
 <h1>실행화면 및 주소</h1>
 
-<img width="400" alt="스크린샷 2022-12-28 오후 6 53 39" src="https://user-images.githubusercontent.com/103705842/209793709-b66ac872-8018-40be-ace9-9f6eb4e9946c.png"><img width="400" alt="스크린샷 2022-12-28 오후 6 53 44" src="https://user-images.githubusercontent.com/103705842/209793717-51600224-4a27-409f-ad08-8f513ae72309.png">
-<img width="400" alt="스크린샷 2022-12-28 오후 6 53 46" src="https://user-images.githubusercontent.com/103705842/209793723-407cd411-d5ca-4dfe-ae3e-c3a4e07369e2.png"><img width="400" alt="스크린샷 2022-12-28 오후 6 54 03" src="https://user-images.githubusercontent.com/103705842/209793728-f8a814e2-2550-4009-a225-22581e40b9ce.png">
+<img width="400" alt="스크린샷 2022-12-29 오후 3 55 41" src="https://user-images.githubusercontent.com/103705842/209915364-c7aa8108-6bdc-4c51-b602-a4f8ea2e88e9.png"><img width="400" alt="스크린샷 2022-12-29 오후 3 55 45" src="https://user-images.githubusercontent.com/103705842/209915371-18db5bc4-2c6c-4ee0-b96e-296d23ac7c79.png">
+<img width="400" alt="스크린샷 2022-12-29 오후 3 56 17" src="https://user-images.githubusercontent.com/103705842/209915380-10608885-38d4-4b9a-8ff8-dde38e4c9d21.png"><img width="400" alt="스크린샷 2022-12-29 오후 3 56 26" src="https://user-images.githubusercontent.com/103705842/209915384-f51bd289-61e2-4282-9967-c51d8b200237.png">
+<img width="400" alt="스크린샷 2022-12-29 오후 3 56 49" src="https://user-images.githubusercontent.com/103705842/209915390-bc2fe7a9-3985-411a-a11d-67f4eee7a6d5.png"><img width="400" alt="스크린샷 2022-12-29 오후 3 56 56" src="https://user-images.githubusercontent.com/103705842/209915396-7fecd898-041c-4a93-871d-f2e012777a37.png">
+
+<h3>https://clonekakaoproject.vercel.app/home</h3>
 
 
 <h1> 핵심기능 </h1>
